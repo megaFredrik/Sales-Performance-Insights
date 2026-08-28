@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales Performance Insights</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">SI</div><div><strong>Sales Intelligence</strong><span>Monthly performance review</span></div></div>
+    <div class="privacy-pill"><span class="dot"></span> Private · processed in browser</div>
+  </header>
+  <main class="container">
+    <section class="hero">
+      <div><p class="eyebrow">SALES PERFORMANCE INSIGHTS</p><h1>See what is driving sales.</h1><p class="hero-copy">Upload your monthly sales spreadsheet to compare regions, reps and products.</p></div>
+      <div class="metric-control"><label for="metricSelect">Focus metric</label><select id="metricSelect"><option value="revenue">Revenue</option><option value="deals">Deals Closed</option><option value="avgDeal">Average Deal Size</option></select></div>
+    </section>
+    <section class="upload-card">
+      <div class="upload-icon">↑</div><div><h2>Upload sales data</h2><p>CSV · Region, Sales Rep, Product, Revenue, Deals Closed</p></div>
+      <label class="button primary" for="fileInput">Choose CSV</label><input id="fileInput" type="file" accept=".csv,text/csv" hidden />
+      <button class="button secondary" id="sampleBtn">Use sample data</button>
+      <p class="file-status" id="fileStatus">No file loaded yet</p>
+    </section>
+    <section id="dashboard" class="hidden">
+      <div class="kpi-grid"><article class="kpi"><span>Total Revenue</span><strong id="totalRevenue">—</strong></article><article class="kpi"><span>Deals Closed</span><strong id="totalDeals">—</strong></article><article class="kpi"><span>Average Deal Size</span><strong id="avgDealSize">—</strong></article><article class="kpi accent"><span>Top Performer</span><strong id="topPerformer">—</strong></article></div>
+      <section class="summary-card"><p class="eyebrow">EXECUTIVE SUMMARY</p><p id="executiveSummary">Your summary will appear here after data is loaded.</p></section>
+      <section class="attention-card"><p class="eyebrow">AREAS NEEDING ATTENTION</p><ul id="attentionList"><li>Insights will appear after data is loaded.</li></ul></section>
+      <section class="tables-grid"><div class="table-card"><h2>By Region</h2><table id="regionTable"></table></div><div class="table-card"><h2>By Sales Rep</h2><table id="repTable"></table></div><div class="table-card"><h2>By Product</h2><table id="productTable"></table></div></section>
+    </section>
+  </main>
+  <footer>Sales Performance Insights · Uploaded data is processed locally in this browser.</footer>
+  <script src="app.js"></script>
+</body>
+</html>
