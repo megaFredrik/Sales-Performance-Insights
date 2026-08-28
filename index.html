@@ -4,32 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sales Performance Insights</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.3/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand"><div class="brand-mark">SI</div><div><strong>Sales Intelligence</strong><span>Monthly performance review</span></div></div>
-    <div class="privacy-pill"><span class="dot"></span> Private · processed in browser</div>
-  </header>
-  <main class="container">
-    <section class="hero">
-      <div><p class="eyebrow">SALES PERFORMANCE INSIGHTS</p><h1>See what is driving sales.</h1><p class="hero-copy">Upload your monthly sales spreadsheet to compare regions, reps and products.</p></div>
-      <div class="metric-control"><label for="metricSelect">Focus metric</label><select id="metricSelect"><option value="revenue">Revenue</option><option value="deals">Deals Closed</option><option value="avgDeal">Average Deal Size</option></select></div>
-    </section>
-    <section class="upload-card">
-      <div class="upload-icon">↑</div><div><h2>Upload sales data</h2><p>CSV · Region, Sales Rep, Product, Revenue, Deals Closed</p></div>
-      <label class="button primary" for="fileInput">Choose CSV</label><input id="fileInput" type="file" accept=".csv,text/csv" hidden />
-      <button class="button secondary" id="sampleBtn">Use sample data</button>
-      <p class="file-status" id="fileStatus">No file loaded yet</p>
-    </section>
-    <section id="dashboard" class="hidden">
-      <div class="kpi-grid"><article class="kpi"><span>Total Revenue</span><strong id="totalRevenue">—</strong></article><article class="kpi"><span>Deals Closed</span><strong id="totalDeals">—</strong></article><article class="kpi"><span>Average Deal Size</span><strong id="avgDealSize">—</strong></article><article class="kpi accent"><span>Top Performer</span><strong id="topPerformer">—</strong></article></div>
-      <section class="summary-card"><p class="eyebrow">EXECUTIVE SUMMARY</p><p id="executiveSummary">Your summary will appear here after data is loaded.</p></section>
-      <section class="attention-card"><p class="eyebrow">AREAS NEEDING ATTENTION</p><ul id="attentionList"><li>Insights will appear after data is loaded.</li></ul></section>
-      <section class="tables-grid"><div class="table-card"><h2>By Region</h2><table id="regionTable"></table></div><div class="table-card"><h2>By Sales Rep</h2><table id="repTable"></table></div><div class="table-card"><h2>By Product</h2><table id="productTable"></table></div></section>
-    </section>
-  </main>
-  <footer>Sales Performance Insights · Uploaded data is processed locally in this browser.</footer>
-  <script src="app.js"></script>
-</body>
-</html>
+<header class="topbar"><div class="brand"><div class="brand-mark">SI</div><div><strong>Sales Intelligence</strong><span>Monthly performance review</span></div></div><div class="privacy-pill"><span class="dot"></span> Private · processed in browser</div></header>
+<main class="container">
+<section class="hero"><div><p class="eyebrow">SALES PERFORMANCE INSIGHTS</p><h1>See what is driving sales.</h1><p class="hero-copy">Upload your monthly sales spreadsheet to compare regions, reps and products — then turn the numbers into a clear management conversation.</p></div><div class="metric-control"><label for="metricSelect">Focus metric</label><select id="metricSelect"><option value="revenue">Revenue</option><option value="deals">Deals Closed</option><option value="avgDeal">Average Deal Size</option></select></div></section>
+<section class="upload-card"><div class="upload-icon">↑</div><div><h2>Upload sales data</h2><p>CSV · Region, Sales Rep, Product, Revenue, Deals Closed</p></div><label class="button primary" for="fileInput">Choose CSV</label><input id="fileInput" type="file" accept=".csv,text/csv" hidden><button class="button secondary" id="sampleBtn">Use sample data</button><p class="file-status" id="fileStatus">Sample data loaded</p></section>
+<section id="dashboard" class="hidden">
+<div class="kpi-grid"><article class="kpi"><span>Total Revenue</span><strong id="totalRevenue">—</strong><small>Across all sales</small></article><article class="kpi"><span>Deals Closed</span><strong id="totalDeals">—</strong><small>Completed deals</small></article><article class="kpi"><span>Average Deal Size</span><strong id="avgDealSize">—</strong><small>Revenue per closed deal</small></article><article class="kpi accent"><span>Top Performer</span><strong id="topPerformer">—</strong><small>Based on selected metric</small></article></div>
+<div class="section-heading"><div><p class="eyebrow">EXECUTIVE VIEW</p><h2>What should we discuss?</h2></div><span class="advisory">AI-assisted · discussion input</span></div>
+<section class="insight-grid"><article class="summary-card"><div class="card-title"><span class="spark">✦</span><h3>Executive summary</h3></div><p id="executiveSummary">Your summary will appear here.</p></article><article class="attention-card"><div class="card-title"><span class="warning">!</span><h3>Areas needing attention</h3></div><ul id="attentionList"><li>Insights will appear after data is loaded.</li></ul></article></section>
+<div class="section-heading compact"><div><p class="eyebrow">COMPARISON</p><h2>Performance by dimension</h2></div></div>
+<section class="charts-grid"><article class="chart-card"><div class="chart-header"><h3>Regions</h3><span>Selected metric</span></div><div class="chart-wrap"><canvas id="regionChart"></canvas></div></article><article class="chart-card"><div class="chart-header"><h3>Sales reps</h3><span>Selected metric</span></div><div class="chart-wrap"><canvas id="repChart"></canvas></div></article><article class="chart-card"><div class="chart-header"><h3>Products</h3><span>Selected metric</span></div><div class="chart-wrap"><canvas id="productChart"></canvas></div></article></section>
+<div class="section-heading compact"><div><p class="eyebrow">DETAIL</p><h2>Performance scorecard</h2></div></div>
+<section class="table-card"><div class="table-tabs"><button class="tab active" data-table="regionTable">Regions</button><button class="tab" data-table="repTable">Sales reps</button><button class="tab" data-table="productTable">Products</button></div><div class="table-scroll"><table id="regionTable" class="data-table active-table"></table><table id="repTable" class="data-table"></table><table id="productTable" class="data-table"></table></div></section>
+<p class="disclaimer">Recommendations are generated from the uploaded numbers and are intended as input for discussion, not final decisions.</p>
+</section></main><footer>Sales Performance Insights · Uploaded data is processed locally in this browser.</footer><script src="app.js"></script>
+</body></html>
